@@ -12,9 +12,5 @@ streams_list <- all_sheets %>% filter(str_detect(.$sheet_title, pattern = "inven
 
 sheet_titles <- streams_list$sheet_title
 
-mon_data <- gs_title("Montecito_Creek_inventory") %>% gs_read(ws = "Sheet1") %>% clean_names()
-
-sy_data <- gs_title("San_Ysidro_inventory") %>% gs_read(ws = "Sheet1") %>% clean_names()
-
 all_data <- map(sheet_titles, ~ gs_title(.x) %>% gs_read(ws = "Sheet1") %>% clean_names()) %>% set_names(nm = sheet_titles)
 

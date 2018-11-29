@@ -15,9 +15,9 @@ sheet_titles <- streams_list$sheet_title
 
 all_data <- map(sheet_titles, ~ gs_title(.x) %>% gs_read(ws = "Sheet1") %>% clean_names()) %>% set_names(nm = sheet_titles)
 
-barrier_summary <- all_data %>% map_df(., ~.x %>% group_by(barrier_type, date_assessed) %>% summarize(count = n()), .id = "id") %>% ungroup()
+bar_sum <- all_data %>% map_df(., ~.x %>% group_by(barrier_type, date_assessed) %>% summarize(count = n()), .id = "id") %>% ungroup()
 
-barrier_summary_current <- barrier_summary %>% rename(stream = id) %>% mutate(date_assessed = mdy(date_assessed)) %>% filter(month(date_assessed) == month(Sys.Date())) %>% group_by(stream, barrier_type) %>% summarize(total = sum(count))
+bar_sum_current <- bar_sum %>% rename(stream = id) %>% mutate(date_assessed = mdy(date_assessed)) %>% filter(month(date_assessed) == month(Sys.Date())) %>% group_by(stream, barrier_type) %>% summarize(total = sum(count))
 
-View(barrier_summary_current)
+View(bar_sum_current)
 

@@ -15,6 +15,10 @@ sheet_titles <- streams_list$sheet_title
 all_data <- map(sheet_titles, ~ gs_title(.x) %>% gs_read(ws = "Sheet1") %>% clean_names()) %>% set_names(nm = sheet_titles)
 
 barrier_summary <- all_data %>% map_df(., ~.x %>% group_by(barrier_type) %>% summarize(count = n()) 
-, .id = "id")
+, .id = "id") 
+
+barrier_summary <- barrier_summary %>% rename(stream = id)
+
+View(barrier_summary)
 
 
